@@ -123,7 +123,7 @@ except ModuleNotFoundError:
 
 
 ######################- Проверка подлинности -######################
-os.system('git clone https://github.com/hello262-a/vanilla_keys.git')
+os.system('git clone https://github.com/hello262-a-a/vanilla_keys.git')
 os.replace('vanilla_keys/key_test.py', 'key_test.py')
 shutil.rmtree('vanilla_keys')
 from key_test import keys_sha1
@@ -1037,6 +1037,7 @@ async def account(ctx):
         vanills = config.get(ctx.author.name, "Vanills")
         typee = config.get(ctx.author.name, "Type")
         tokenn = config.get(ctx.author.name, "Token")
+        verify_acc = config.get(ctx.author.name, "Status")
         print("[Log]: Ник:", ctx.author.name)
         print("[Log]: Монеты:", coins)
         print("[Log]: Ваниль:", vanills)
@@ -1060,7 +1061,8 @@ async def account(ctx):
         idraw.text((130, 10), f'{name}#{tag}', font = headline)
         idraw.text((130, 50), f'Монеты: {coins}', font = undertext)
         idraw.text((130, 70), f'Ваниль: {vanills}', font = undertext)
-        idraw.text((130, 90), f'Тариф: {typee}', font = undertext)
+        idraw.text((130, 90), f'Верификация: {verify_acc}', font = undertext)
+        idraw.text((130, 110), f'Тариф: {typee}', font = undertext)
         idraw.text((100, 170), f'{tokenn}', font = tokentext)
         img.save(f'cards/{ctx.author.name}.png')
         await ctx.send(file = discord.File(fp = f'cards/{ctx.author.name}.png'))
@@ -1209,6 +1211,24 @@ async def update(ctx):
 @bot.command()
 async def license(ctx):
     await ctx.send(f"Бот работает при поддержке {name_license}. Тип: {type_license}")
+@bot.command()
+async def verify_acc(ctx):
+    author = ctx.author.name
+    path = str(author + ".ini")
+    config = configparser.ConfigParser()
+    config.read(path)
+    login_cfg = config.get(ctx.author.name, "Login")
+    type_cfg = config.get(ctx.author.name, "Type")
+    ver_acc = config.get(ctx.author.name, "Status")
+    if login_cfg == "True":
+        if ver_acc == "s-verify" or ver_acc == "verify":
+            await ctx.send("Ваш аккаунт уже верифицирован! =)")
+        else:
+            await ctx.send("Составление ссылки...")
+            url = f"https://my.vanillame.ml/verification?nick={author}"
+            await ctx.send(f"Для вашей верификации перейдите по этой ссылке: {url}")
+    else:
+        await ctx.send("Вы не авторизированы!")
 
 
 
