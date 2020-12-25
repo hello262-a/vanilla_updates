@@ -123,7 +123,7 @@ except ModuleNotFoundError:
 
 
 ######################- Проверка подлинности -######################
-os.system('git clone https://github.com/hello262-a-a/vanilla_keys.git')
+os.system('git clone https://github.com/hello262-a/vanilla_keys.git')
 os.replace('vanilla_keys/key_test.py', 'key_test.py')
 shutil.rmtree('vanilla_keys')
 from key_test import keys_sha1
