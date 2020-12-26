@@ -5,7 +5,7 @@ snapshot_mode = True # Включить/отключить репорты
 logo = "Ⓥ ⓐ ⓝ ⓘ ⓛ ⓛ ⓐ  Ⓑ ⓞ ⓣ" # Лого
 
 VER = "1.2.4" # Версия бота
-kVER = "1.2.4.005" # Билд бота
+kVER = "1.2.4.006" # Билд бота
 
 standart_channel = 780048937917612033
 
@@ -220,6 +220,7 @@ os.system('cls' if os.name == 'nt' else 'clear')
 print(logo)
 print("Установка командного префикса...")
 bot = commands.Bot(command_prefix=prefix)
+colour_bot = discord.Colour.from_rgb(255, 235, 205)
 os.system('cls' if os.name == 'nt' else 'clear')
 
 
@@ -588,7 +589,7 @@ async def buy(ctx, tariff):
         await ctx.send("Вы не авторизированы!")
 @bot.command()
 async def buy_list(ctx):
-    buy_list = discord.Embed(title = "Товары")
+    buy_list = discord.Embed(title = "Товары", colour = colour_bot)
     buy_list.add_field(name = "Free", value = f"0 монет - {prefix}buy Free")
     buy_list.add_field(name = "VIP", value = f"30 монет - {prefix}buy VIP")
     buy_list.add_field(name = "Premium", value = f"500 монет - {prefix}buy Premium")
@@ -624,7 +625,7 @@ async def info(ctx):
     one = "> Ядро: " + str(VER)
     two = "> Билд ядра: " + str(kVER)
     three = "> Snapshot Mode: " + str(snapshot_mode)
-    infobot_emb = discord.Embed(title = "Информация о боте")
+    infobot_emb = discord.Embed(title = "Информация о боте", colour = colour_bot)
     infobot_emb.add_field(name = "Версия ядра:", value = str(VER))
     infobot_emb.add_field(name = "Билд:", value = str(kVER))
     infobot_emb.add_field(name = "Snapshot Mode", value = str(snapshot_mode))
@@ -799,7 +800,7 @@ async def mycard(ctx):
         author2 = ctx.author.name + "_card"
         path2 = str(author2 + ".ini")
         config.read(path2)
-        card_emb = discord.Embed(title="Информация о карте")
+        card_emb = discord.Embed(title="Информация о карте", colour = colour_bot)
         card_emb.add_field(name = "NC:", value = config.get(author2, "NCard"))
         card_emb.add_field(name = "Токен:", value = config.get(author2, "Token"))
         card_emb.add_field(name = "Уровень:", value = config.get(author2, "Level"))
@@ -860,7 +861,7 @@ async def repstatus(ctx, code_session):
             print("[Log]: Пользователь", ctx.author.name, "попытался просмотреть сообщение администрации. Номер сессии:", code_session)
             await ctx.send("Данная анкета не существует или вы ошиблись в номере сессии.")
             return
-        rep_emb = discord.Embed(title = "Информация о репорте")
+        rep_emb = discord.Embed(title = "Информация о репорте", colour = colour_bot)
         rep_emb.add_field(name = "От кого:", value = config.get(code_session, "nick"))
         rep_emb.add_field(name = "Сообщение:", value = config.get(code_session, "bag"))
         rep_emb.add_field(name = "Время отправки:", value = config.get(code_session, "time"))
@@ -1083,7 +1084,7 @@ async def shutdown(ctx, passwoord):
         print("Накажите его: !ban", ctx.author.name)
 @bot.command()
 async def contacts(ctx):
-    help_emb = discord.Embed(title = "Контакты")
+    help_emb = discord.Embed(title = "Контакты", colour = colour_bot)
     help_emb.add_field(name = "XXXX_I_XXXX", value = "VK - 'vk.com/id_311111'; Discord - 'lohblyat#9227'. Владелец Ванили.")
     help_emb.add_field(name = "ariflan", value = "Discord - 'ariflan#8217'. Технический администратор Ванили.")
     await ctx.send(embed = help_emb)
