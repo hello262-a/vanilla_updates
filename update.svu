@@ -1,11 +1,13 @@
 ######################- Переменные -######################
-snapshot_mode = True # Включить/отключить репорты
+global err_message
+err_message = True
 
+snapshot_mode = True # Включить/отключить репорты
 
 logo = "Ⓥ ⓐ ⓝ ⓘ ⓛ ⓛ ⓐ  Ⓑ ⓞ ⓣ" # Лого
 
 VER = "1.2.4" # Версия бота
-kVER = "1.2.4.006" # Билд бота
+kVER = "1.2.4.007" # Билд бота
 
 standart_channel = 780048937917612033
 
@@ -1230,21 +1232,48 @@ async def verify_acc(ctx):
             await ctx.send(f"Для вашей верификации перейдите по этой ссылке: {url}")
     else:
         await ctx.send("Вы не авторизированы!")
+@bot.command()
+async def message_error(ctx, arg):
+    print("[Log]: Пользователь", ctx.author.name, "пытается вкл./выкл. сообщения об ошибке.")
+    author = ctx.author.name
+    path = str(author + ".ini")
+    config = configparser.ConfigParser()
+    config.read(path)
+    login_cfg = config.get(ctx.author.name, "Login")
+    type_cfg = config.get(ctx.author.name, "Type")
+    if login_cfg == "True":
+        if type_cfg == "root":
+            global err_message
+            if arg == "1":
+                err_message = True
+                await ctx.send("Готово!")
+            elif arg == "0":
+                err_message = False
+                await ctx.send("Готово!")
+            else:
+                await ctx.send("Неизвестный аргумент! (1, 0)")
+        else:
+            await ctx.send("Недостаточно прав!")
+    else:
+        await ctx.send("Вы не авторизированы!")
 
 
 
 ######################- "Евенты" -###################### 
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument ):
-        print("[Error]: Пользователь", ctx.author.name, "не ввел аргументы!")
-        await ctx.send("Отстутствуют аргументы!")
-    elif isinstance(error, commands.CommandNotFound ):
-        print("[Error]: Пользователь", ctx.author.name, "ввел не существующую команду!")
-        await ctx.send("Команды не существует!")
+    if err_message == True:
+        if isinstance(error, commands.MissingRequiredArgument ):
+            print("[Error]: Пользователь", ctx.author.name, "не ввел аргументы!")
+            await ctx.send("Отстутствуют аргументы!")
+        elif isinstance(error, commands.CommandNotFound ):
+            print("[Error]: Пользователь", ctx.author.name, "ввел не существующую команду!")
+            await ctx.send("Команды не существует!")
+        else:
+            print("[Error]: Произошла неизвестная ошибка!")
+            await ctx.send("Что-то пошло не так...")
     else:
-        print("[Error]: Произошла неизвестная ошибка!")
-        await ctx.send("Что-то пошло не так...")
+        pass
 @bot.event
 async def on_ready():
     print("[Log]: Удаление стандартной команды help...")
