@@ -7,7 +7,7 @@ snapshot_mode = True # Включить/отключить репорты
 logo = "Ⓥ ⓐ ⓝ ⓘ ⓛ ⓛ ⓐ  Ⓑ ⓞ ⓣ" # Лого
 
 VER = "1.2.4" # Версия бота
-kVER = "1.2.4.007" # Билд бота
+kVER = "1.2.4.008" # Билд бота
 
 standart_channel = 780048937917612033
 
@@ -1252,6 +1252,60 @@ async def message_error(ctx, arg):
                 await ctx.send("Готово!")
             else:
                 await ctx.send("Неизвестный аргумент! (1, 0)")
+        else:
+            await ctx.send("Недостаточно прав!")
+    else:
+        await ctx.send("Вы не авторизированы!")
+@bot.command()
+async def background(ctx, url):
+    print("[Log]: Пользователь", ctx.author.name, "использовал команду.")
+    author = ctx.author.name
+    path = str(author + ".ini")
+    config = configparser.ConfigParser()
+    config.read(path)
+    login_cfg = config.get(ctx.author.name, "Login")
+    type_cfg = config.get(ctx.author.name, "Type")
+    if login_cfg == "True":
+        if type_cfg == "root":
+            try:
+                config.set(ctx.author.name, "background_url", str(url))
+                with open(path, "w") as config_file:
+                    config.write(config_file)
+                return await ctx.send(f"Готово! Задний фон личного кабинета установлен на: {url}")
+            except:
+                return await ctx.send("Произошла ошибка!")
+        elif type_cfg == "Console":
+            try:
+                config.set(ctx.author.name, "background_url", str(url))
+                with open(path, "w") as config_file:
+                    config.write(config_file)
+                return await ctx.send(f"Готово! Задний фон личного кабинета установлен на: {url}")
+            except:
+                return await ctx.send("Произошла ошибка!")
+        elif type_cfg == "Admin":
+            try:
+                config.set(ctx.author.name, "background_url", str(url))
+                with open(path, "w") as config_file:
+                    config.write(config_file)
+                return await ctx.send(f"Готово! Задний фон личного кабинета установлен на: {url}")
+            except:
+                return await ctx.send("Произошла ошибка!")
+        elif type_cfg == "Premium":
+            try:
+                config.set(ctx.author.name, "background_url", str(url))
+                with open(path, "w") as config_file:
+                    config.write(config_file)
+                return await ctx.send(f"Готово! Задний фон личного кабинета установлен на: {url}")
+            except:
+                return await ctx.send("Произошла ошибка!")
+        elif type_cfg == "VIP":
+            try:
+                config.set(ctx.author.name, "background_url", str(url))
+                with open(path, "w") as config_file:
+                    config.write(config_file)
+                return await ctx.send(f"Готово! Задний фон личного кабинета установлен на: {url}")
+            except:
+                return await ctx.send("Произошла ошибка!")
         else:
             await ctx.send("Недостаточно прав!")
     else:
