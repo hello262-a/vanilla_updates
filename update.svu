@@ -316,7 +316,7 @@ async def mode(ctx):
     else:
         await ctx.send("Вы не авторизированы!")
 @bot.command()
-async def feedback(ctx, appraisal, text, *):
+async def feedback(ctx, appraisal, *, text):
     print("[Log]: Пользователь", ctx.author.name, "оставляет отзыв.")
     author = ctx.author.name
     path = str("reviews/feedback.ini")
