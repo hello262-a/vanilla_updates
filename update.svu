@@ -7,7 +7,7 @@ snapshot_mode = True # Включить/отключить репорты
 logo = "Ⓥ ⓐ ⓝ ⓘ ⓛ ⓛ ⓐ  Ⓑ ⓞ ⓣ" # Лого
 
 VER = "1.2.4" # Версия бота
-kVER = "1.2.4.008" # Билд бота
+kVER = "1.2.4.009" # Билд бота
 
 standart_channel = 780048937917612033
 
@@ -316,23 +316,23 @@ async def mode(ctx):
     else:
         await ctx.send("Вы не авторизированы!")
 @bot.command()
-async def changepass(ctx, newpass):
-    print("[Log]: Пользователь", ctx.author.name, "использовал команду.")
+async def feedback(ctx, appraisal, text):
+    print("[Log]: Пользователь", ctx.author.name, "оставляет отзыв.")
     author = ctx.author.name
-    path = str(author + ".ini")
+    path = str("reviews/feedback.ini")
     config = configparser.ConfigParser()
     config.read(path)
-    changepass_check = config.get(ctx.author.name, "perm_to_change_pass")
-    if changepass_check == "True":
-        config.get(ctx.author.name, "password")
-        config.set(ctx.author.name, "password", newpass)
-        config.get(ctx.author.name, "perm_to_change_pass")
-        config.set(ctx.author.name, "perm_to_change_pass", "False")
-        with open(path, "w") as config_file:
-            config.write(config_file)
-        await ctx.send("Ваш пароль сменён, не забудьте!")
+    if str(appraisal) == "0" or str(appraisal) == "1" or str(appraisal) == "2" or str(appraisal) == "3" or str(appraisal) == "4" or str(appraisal) == "5":
+        pass
     else:
-        await ctx.send("Недостаточно прав!")
+        return await ctx.send("Оценка от 0 до 5!")
+    number_fb = random.randint(1, 3)
+    config.set(number_fb, "appraisal", str(appraisal))
+    config.set(number_fb, "text", str(text))
+    config.set(number_fb, "author", str(ctx.author.name))
+    with open(path, "w") as config_file:
+        config.write(config_file)
+    await ctx.send("Ура! Спасибо за отзыв. Он появится на главной странице сайта.")
 @bot.command()
 async def login(ctx, password):
     print("[Log]: Пользователь", ctx.author.name, "использовал команду.")
