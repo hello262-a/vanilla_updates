@@ -316,7 +316,7 @@ async def mode(ctx):
     else:
         await ctx.send("Вы не авторизированы!")
 @bot.command()
-async def feedback(ctx, appraisal, text):
+async def feedback(ctx, appraisal, text, *):
     print("[Log]: Пользователь", ctx.author.name, "оставляет отзыв.")
     author = ctx.author.name
     path = str("reviews/feedback.ini")
@@ -326,7 +326,7 @@ async def feedback(ctx, appraisal, text):
         pass
     else:
         return await ctx.send("Оценка от 0 до 5!")
-    number_fb = random.randint(1, 3)
+    number_fb = str(random.randint(1, 3))
     config.set(number_fb, "appraisal", str(appraisal))
     config.set(number_fb, "text", str(text))
     config.set(number_fb, "author", str(ctx.author.name))
